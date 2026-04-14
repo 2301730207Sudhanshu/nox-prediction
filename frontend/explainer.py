@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from lime.lime_tabular import LimeTabularExplainer
 
 # ===== LOAD MODEL =====
-model = joblib.load("../backend/model/RESEARCH_model.pkl")
+model = joblib.load("../model/RESEARCH_model.pkl")
 
 # ===== FEATURES =====
 feature_names = [

@@ -64,10 +64,10 @@ def show():
                     data = {col: float(row[col]) for col in REQUIRED_COLUMNS}
 
                     try:
-                        response = session.post(
-                            "http://127.0.0.1:8000/predict",
+                        response = requests.post(
+                            "https://nox-prediction-1.onrender.com/predict",
                             json=data,
-                            timeout=5
+                            timeout=10
                         )
                         if response.status_code == 200:
                             result = response.json()
