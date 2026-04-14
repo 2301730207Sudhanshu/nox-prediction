@@ -59,3 +59,4 @@ plotly==6.0.0
 shap==0.46.0
 scikit-learn==1.8.0
 streamlit-oauth==0.1.11
+matplotlib==3.10.0
