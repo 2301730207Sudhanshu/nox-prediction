@@ -1,12 +1,16 @@
 import sqlite3
 import json
 
-# ================= CONFIG =================
 DB_NAME = "nox.db"
+
+# ================= CONNECTION =================
+def get_connection():
+    return sqlite3.connect(DB_NAME, check_same_thread=False)
+
 
 # ================= INIT DATABASE =================
 def init_db():
-    conn = sqlite3.connect(DB_NAME)
+    conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute("""
@@ -26,7 +30,7 @@ def init_db():
 
 # ================= INSERT DATA =================
 def insert_prediction(email, input_data, prediction, top_features=None):
-    conn = sqlite3.connect(DB_NAME)
+    conn = get_connection()
     cursor = conn.cursor()
 
     try:
@@ -35,11 +39,10 @@ def insert_prediction(email, input_data, prediction, top_features=None):
         VALUES (?, ?, ?, ?)
         """, (
             email,
-            json.dumps(input_data),            # store full input as JSON
-            float(prediction),                 # ensure numeric
+            json.dumps(input_data),
+            float(prediction),
             json.dumps(top_features) if top_features else None
         ))
-
         conn.commit()
 
     except Exception as e:
@@ -51,7 +54,7 @@ def insert_prediction(email, input_data, prediction, top_features=None):
 
 # ================= FETCH USER DATA =================
 def get_user_predictions(email):
-    conn = sqlite3.connect(DB_NAME)
+    conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute("""
@@ -62,34 +65,29 @@ def get_user_predictions(email):
     """, (email,))
 
     rows = cursor.fetchall()
-
     conn.close()
     return rows
 
 
-# ================= OPTIONAL: DELETE USER HISTORY =================
+# ================= DELETE USER HISTORY =================
 def delete_user_history(email):
-    conn = sqlite3.connect(DB_NAME)
+    conn = get_connection()
     cursor = conn.cursor()
 
     try:
         cursor.execute("""
-        DELETE FROM predictions
-        WHERE user_email = ?
+        DELETE FROM predictions WHERE user_email = ?
         """, (email,))
-
         conn.commit()
-
     except Exception as e:
         print("❌ Delete Error:", e)
-
     finally:
         conn.close()
 
 
-# ================= OPTIONAL: CLEAR ALL DATA =================
+# ================= CLEAR ALL =================
 def clear_all_data():
-    conn = sqlite3.connect(DB_NAME)
+    conn = get_connection()
     cursor = conn.cursor()
 
     try:

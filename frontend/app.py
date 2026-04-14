@@ -6,6 +6,8 @@ from dotenv import load_dotenv
 import importlib
 from PIL import Image
 from datetime import datetime
+from db import init_db
+init_db()
 
 # ================= 1. PAGE CONFIG =================
 load_dotenv()
