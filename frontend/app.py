@@ -9,6 +9,11 @@ from datetime import datetime
 from db import init_db
 init_db()
 
+MODEL_PATH = os.path.join(os.path.dirname(__file__), "..", "model", "RESEARCH_model.pkl")
+
+with open(MODEL_PATH, "rb") as f:
+    model = pickle.load(f)
+
 # ================= 1. PAGE CONFIG =================
 load_dotenv()
 st.set_page_config(
