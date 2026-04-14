@@ -5,17 +5,15 @@ import numpy as np
 app = FastAPI()
 
 # Load model
-model = joblib.load("backend/model/RESEARCH_model.pkl")
+model = joblib.load("model/RESEARCH_model.pkl")
 
 @app.get("/")
 def home():
     return {"message": "NOx Prediction API is running"}
 
-
 @app.post("/predict")
 def predict(data: dict):
     try:
-        # Correct feature order (11 features)
         input_data = [
             data["no2"],
             data["traffic"],
@@ -27,11 +25,10 @@ def predict(data: dict):
             data["o3"],
             data["pm10"],
             data["relativehumidity"],
-            data["depth"]   # NEW FEATURE
+            data["depth"]
         ]
 
         input_array = np.array(input_data).reshape(1, -1)
-
         prediction = model.predict(input_array)
 
         return {"predicted_NOx": float(prediction[0])}
