@@ -49,3 +49,11 @@ tzdata==2026.1
 urllib3==2.6.3
 uvicorn==0.44.0
 watchdog==6.0.0
+streamlit
+requests
+pandas
+numpy
+python-dotenv
+Pillow
+streamlit-oauth
+PyJWT
